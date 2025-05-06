@@ -2,6 +2,13 @@
     <div id="inside-component">
         <canvas #canvas (click)="onClick($event)"></canvas>
         <br/>
-        <h4>{{rgbResult}}</h4>
+        <ng-container *ngIf="rgbResult && !isHexAsked">
+            <h4>{{rgbResult}}</h4>
+            <button  (click)="toggleHex()">Convert to HEX</button>
+        </ng-container>
+        <ng-container *ngIf="isHexAsked">
+            <h4>{{hexResult}}</h4>
+            <button (click)="toggleHex()">Convert to RGB</button>
+        </ng-container>
     </div>
 </div>

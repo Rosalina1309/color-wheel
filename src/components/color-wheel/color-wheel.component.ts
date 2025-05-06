@@ -1,9 +1,9 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-color-wheel',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './color-wheel.component.html',
   styleUrl: './color-wheel.component.scss'
 })
@@ -20,6 +20,9 @@ export class ColorWheelComponent {
   private size = 300;
 
   rgbResult: string = '';
+  isHexAsked: boolean = false;
+  hexResult: string = '';
+
 // Lifecycle hook called after the component's view (DOM) has been fully initialized.
 // Sets the canvas size, retrieves its 2D rendering context, and draws the color wheel.
   ngAfterViewInit() {
@@ -113,10 +116,38 @@ export class ColorWheelComponent {
   const y = event.clientY -rect.top;
 
   const pixel = this.ctx.getImageData(x,y,1,1).data;
-  const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+  const rgb = `RGB(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+
   this.rgbResult = rgb;
+  this.hexResult = this.changeRGBToHex(this.rgbResult); 
+  
   console.log('Selected color:', rgb);
   localStorage.setItem('currentColor', rgb)
   this.colorPicked.emit(rgb);
  }
+
+  changeRGBToHex(color: string): string {
+    const regex = /\d+/g;
+    const match = color.match(regex);
+    if (!match) return '';
+
+    let result = '#';
+    for (let i = 0; i < 3; i++) {
+      result += this.changeDeciToHexa(Number(match[i]));
+    }
+    return result;
+  }
+
+  /**
+   * Converts a single number (0–255) to 2-digit hex.
+   */
+  changeDeciToHexa(num: number): string {
+    return num.toString(16).padStart(2, '0');
+  }
+
+  toggleHex() {
+    this.isHexAsked = !this.isHexAsked;
+    this.hexResult = this.changeRGBToHex(this.rgbResult);
+    console.log('inside toggleHex',this.hexResult)
+  }
 }

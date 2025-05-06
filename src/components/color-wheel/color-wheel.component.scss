@@ -20,5 +20,18 @@
     h4 {
       margin-top: 10px;          
     }
+
+    button {
+        border: rgb(218, 218, 218) solid 1px;
+        border-radius: 5px;
+        padding: 5px;
+        background: #fbb1bd; /* fallback */
+        background: -webkit-linear-gradient(to right, #fbb1bd, #fdfd96, #c1f0c1, #b0e0e6, #add8e6, #e6ccf2); /* Safari */
+        background: -o-linear-gradient(to right, #fbb1bd, #fdfd96, #c1f0c1, #b0e0e6, #add8e6, #e6ccf2); /* Opera */
+        background: -moz-linear-gradient(to right, #fbb1bd, #fdfd96, #c1f0c1, #b0e0e6, #add8e6, #e6ccf2); /* Firefox */
+        background: linear-gradient(to right, #fbb1bd, #fdfd96, #c1f0c1, #b0e0e6, #add8e6, #e6ccf2); /* Standard */
+        color: #333;
+        font-weight: bold;
+      }
   }
   
