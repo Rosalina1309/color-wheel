@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-color-wheel',
@@ -8,11 +8,31 @@ import { Component } from '@angular/core';
   styleUrl: './color-wheel.component.scss'
 })
 export class ColorWheelComponent {
+// Gets a reference to the <canvas> element in the template using its template variable 'canvas'.
+// 'static: true' means the reference is available in ngAfterViewInit (needed when not using structural directives).
+// The '!' tells TypeScript that this will definitely be assigned (not null or undefined).
+  @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
 
   //These are the private variables for drawing the color circle
   private ctx!: CanvasRenderingContext2D;
   private size = 300;
 
+  // Lifecycle hook called after the component's view (DOM) has been fully initialized.
+// Sets the canvas size, retrieves its 2D rendering context, and draws the color wheel.
+  ngAfterViewInit() {
+
+    const canvas = this.canvasRef.nativeElement;
+
+    // Set canvas dimensions to match the desired size.
+    canvas.width = this.size;
+    canvas.height = this.size;
+
+    // Get the 2D drawing context used to render shapes and colors on the canvas.
+    this.ctx = canvas.getContext('2d')!;
+
+    // Draw the color wheel after the canvas is ready.
+    this.drawColorWheel();
+  }
   /**
  * Converts a color from HSV (Hue, Saturation, Value) to RGB (Red, Green, Blue) format.
   *
