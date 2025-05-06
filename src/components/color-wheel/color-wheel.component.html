@@ -1,5 +1,6 @@
 <div class="color-wheel-container">
     <div id="inside-component">
+        <h1>The Color Wheel</h1>
         <canvas #canvas (click)="onClick($event)"></canvas>
         <br/>
         <ng-container *ngIf="rgbResult && !isHexAsked">
