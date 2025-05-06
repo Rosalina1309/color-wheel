@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-color-wheel',
@@ -13,10 +13,13 @@ export class ColorWheelComponent {
 // The '!' tells TypeScript that this will definitely be assigned (not null or undefined).
   @ViewChild('canvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
 
+  @Output() colorPicked = new EventEmitter<string>();
+  
   //These are the private variables for drawing the color circle
   private ctx!: CanvasRenderingContext2D;
   private size = 300;
 
+  rgbResult: string = '';
 // Lifecycle hook called after the component's view (DOM) has been fully initialized.
 // Sets the canvas size, retrieves its 2D rendering context, and draws the color wheel.
   ngAfterViewInit() {
@@ -102,4 +105,18 @@ export class ColorWheelComponent {
   this.ctx.putImageData(image, 0,0)
  }
   
+ // a function which retrieve the picked color on the wheel
+ onClick(event: MouseEvent) {
+  const canvas = this.canvasRef.nativeElement;
+  const rect = canvas.getBoundingClientRect();
+  const x = event.clientX -rect.left;
+  const y = event.clientY -rect.top;
+
+  const pixel = this.ctx.getImageData(x,y,1,1).data;
+  const rgb = `rgb(${pixel[0]}, ${pixel[1]}, ${pixel[2]})`;
+  this.rgbResult = rgb;
+  console.log('Selected color:', rgb);
+  localStorage.setItem('currentColor', rgb)
+  this.colorPicked.emit(rgb);
+ }
 }
