@@ -8,7 +8,7 @@
             <button  (click)="toggleHex()">Convert to HEX</button>
         </ng-container>
         <ng-container *ngIf="isHexAsked">
-            <h4>{{hexResult}}</h4>
+            <h4>{{hexResult}} <span><div id="color-display" [ngStyle]="{ 'background-color': hexResult }"></div></span></h4>
             <button (click)="toggleHex()">Convert to RGB</button>
         </ng-container>
     </div>
