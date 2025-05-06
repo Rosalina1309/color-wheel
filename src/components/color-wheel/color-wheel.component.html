@@ -4,7 +4,7 @@
         <canvas #canvas (click)="onClick($event)"></canvas>
         <br/>
         <ng-container *ngIf="rgbResult && !isHexAsked">
-            <h4>{{rgbResult}}</h4>
+            <h4>{{rgbResult}} <span><div id="color-display" [ngStyle]="{ 'background-color': rgbResult }"></div></span></h4>
             <button  (click)="toggleHex()">Convert to HEX</button>
         </ng-container>
         <ng-container *ngIf="isHexAsked">
