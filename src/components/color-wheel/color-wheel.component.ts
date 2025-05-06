@@ -9,10 +9,14 @@ import { Component } from '@angular/core';
 })
 export class ColorWheelComponent {
 
+  //These are the private variables for drawing the color circle
+  private ctx!: CanvasRenderingContext2D;
+  private size = 300;
+
   /**
  * Converts a color from HSV (Hue, Saturation, Value) to RGB (Red, Green, Blue) format.
   *
-  * @param hue - The hue angle in degrees (0–360), representing the color type.
+  * @param hue - The hue angle in degrees (0–360), representing the color type. 0° hue = red, 120° hue = green, 240° hue = blue
   * @param sat - Saturation (0–1), where 0 is grayscale and 1 is full color.
   * @param val - Value (brightness, 0–1), where 0 is black and 1 is full brightness.
   * @returns A tuple [R, G, B], each in the range 0–255.
@@ -51,5 +55,31 @@ export class ColorWheelComponent {
   ]
  }
 
+ drawColorWheel () {
+  const radius = this.size/2;
+  const image = this.ctx.createImageData(this.size, this.size);
+
+  for (let y = -radius; y < radius; y ++) {
+    for (let x = -radius; x < radius; x++) {
+      const dx = x;
+      const dy = y;
+      const dist = Math.sqrt(dx*dx+dy*dy);
+      const angle = Math.atan2(dy, dx) + Math.PI;
+
+      if(dist <=radius) {
+        const hue = angle*180/ Math.PI;
+        const saturation = dist/ radius;
+        const rgb = this.hsvToRgb(hue, saturation, 1);
+        const px = ((y+ radius)*this.size +(x+ radius))*4;
+        image.data[px] = rgb[0];
+        image.data[px + 1] = rgb[1];
+        image.data[px + 2] = rgb[2];
+        image.data[px + 3] = 255;
+      }
+    }
+  }
+
+  this.ctx.putImageData(image, 0,0)
+ }
   
 }
