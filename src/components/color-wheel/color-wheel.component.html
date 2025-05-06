@@ -1,3 +1,7 @@
 <div class="color-wheel-container">
-    <canvas #canvas></canvas>
+    <div id="inside-component">
+        <canvas #canvas (click)="onClick($event)"></canvas>
+        <br/>
+        <h4>{{rgbResult}}</h4>
+    </div>
 </div>
