@@ -17,7 +17,7 @@ export class ColorWheelComponent {
   private ctx!: CanvasRenderingContext2D;
   private size = 300;
 
-  // Lifecycle hook called after the component's view (DOM) has been fully initialized.
+// Lifecycle hook called after the component's view (DOM) has been fully initialized.
 // Sets the canvas size, retrieves its 2D rendering context, and draws the color wheel.
   ngAfterViewInit() {
 
